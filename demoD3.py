@@ -8,48 +8,31 @@ import matplotlib.pyplot as plt
 
 
 def app():
-    mat = scipy.loadmat('data/grupoDados1.mat')
+    mat = scipy.loadmat('data/grupoDados3.mat')
     dadosTest = mat['grupoTest']
     dadosTrain = mat['grupoTrain']
     rotuloTrain = mat['trainRots']
     rotuloTest = mat['testRots']
-    
+    #print(dadosTrain[0])
+    #return
+
     #normalizando (0, 1)
     dadosTrain = normaliza(dadosTrain)
     dadosTest = normaliza(dadosTest)
     
     #k = 1
     print("K 1")
-    classes = meuKnn(dadosTrain, rotuloTrain, dadosTest, 1)
+    classes = meuKnn(dadosTrain, rotuloTrain, dadosTest, 5)
     precisao = acurracia(classes, rotuloTest)
     print(precisao)
     print(classes)
 
     visualizaPontos(dadosTest, classes, 0, 1, "k = 1")
 
-    #k = 10
-    print("K 10")
-    classes = meuKnn(dadosTrain, rotuloTrain, dadosTest, 10)
-    precisao = acurracia(classes, rotuloTest)
-    print(precisao)
-    print(classes)
-
-    #plot k10
-    visualizaPontos(dadosTest, classes, 0, 1, "k = 10")
-
-    visualizaPontos(dadosTest, classes, 0, 1, "k = 3")
-
-
     k, precisao = obterMelhorK(dadosTrain, rotuloTrain, dadosTest, rotuloTest)
     print("k best: {}\nprecisao: {}".format(k, precisao))
-    #maior precisão com k = 3 (96%)
-    #necessário ter todas as características
-    #k = 3
-    print("K 3")
-    classes = meuKnn(dadosTrain, rotuloTrain, dadosTest, 3)
-    precisao = acurracia(classes, rotuloTest)
-    print(precisao)
-    print(classes)
+    #melhor valor de k = 29, precisao 92%
+    #automatizei a busca pelo melhor valor de k até o 29, e encontrei o k29 como o melhor
 
 
 def obterMelhorK(dadosTrain, rotuloTrain, dadosTest, rotuloTest):
